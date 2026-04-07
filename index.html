@@ -45,7 +45,9 @@
     <div id="webcam-container"></div>
     <div id="label-container"></div>
     <div id="message"></div>
-
+    <div id="box">📦</div>
+    <style>#box {font-size: 500px;}</style>
+    
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script>
@@ -130,6 +132,17 @@
                 messageEl.textContent = "Put your phone away!";
             } else {
                 messageEl.textContent = "";
+            }
+
+            const box = document.getElementById("box");
+            if (topClass.className === "Face" && topClass.probability > 0.7) {
+                box.style.transform = "translateX(-500px)";
+            } else if (topClass.className === "Peace sign" && topClass.probability > 0.7) {
+                box.style.transform = "translateY(-200px)";
+            } else if (topClass.className === "Phone" && topClass.probability > 0.7) {
+                box.style.transform = "translateX(500px)";
+            } else {
+                box.style.transform = "translateX(0)";
             }
         }
 
