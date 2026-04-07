@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teachable Machine App</title>
+    <title>The Sentient Cardboard Box</title>
     <style>
         body {
             font-family: sans-serif;
@@ -11,6 +11,11 @@
             margin: 2rem auto;
             padding: 0 1rem;
             text-align: center;
+            transition: background-color 0.5s ease;
+        }
+        #webcam-container {
+            display: flex;
+            justify-content: center;
         }
         #webcam-container canvas {
             display: none;
@@ -18,6 +23,20 @@
         }
         #webcam-container.active canvas {
             display: block;
+        }
+        #box-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin: 1rem 0;
+        }
+        #box {
+            position: absolute;
+            font-size: 150px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: left 0.3s ease, top 0.3s ease;
         }
         #label-container div {
             font-size: 1.1rem;
@@ -38,15 +57,16 @@
     </style>
 </head>
 <body>
-    <h1>My Teachable Machine App</h1>
+    <h1>✨ The Sentient Cardboard Box ✨</h1>
 
     <button id="toggleButton" onclick="toggleCamera()">Start Camera</button>
 
     <div id="webcam-container"></div>
     <div id="label-container"></div>
     <div id="message"></div>
-    <div id="box">📦</div>
-    <style>#box {font-size: 500px;}</style>
+    <div id="box-container">
+        <div id="box">📦</div>
+    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -122,27 +142,32 @@
             }
 
             const messageEl = document.getElementById("message");
-            if (topClass.className === "Face" && topClass.probability > 0.85) {
-                messageEl.textContent = "Hello!";
-            } else if (topClass.className === "Blank" && topClass.probability > 0.80){
-                messageEl.textContent = "Hello? Are you there?";
-            } else if (topClass.className === "Peace sign" && topClass.probability > 0.80){
-                messageEl.textContent = "Peace!";
-            } else if (topClass.className === "Phone" && topClass.probability > 0.80){
-                messageEl.textContent = "Put your phone away!";
+
+            if (topClass.className === "Face" && topClass.probability > 0.92) {
+                messageEl.textContent = "Greetings human! I see you!";
+            } else if (topClass.className === "Blank" && topClass.probability > 0.90){
+                messageEl.textContent = "I can still see you... by other means...";
+            } else if (topClass.className === "Peace sign" && topClass.probability > 0.90){
+                messageEl.textContent = "Make peace with the box, and it will show you wonders!";
+            } else if (topClass.className === "Phone" && topClass.probability > 0.90){
+                messageEl.textContent = "Put down the thinking rock platter.";
             } else {
                 messageEl.textContent = "";
             }
 
             const box = document.getElementById("box");
             if (topClass.className === "Face" && topClass.probability > 0.7) {
-                box.style.transform = "translateX(-500px)";
+                box.style.left = "20%";
+                box.style.top = "50%";
             } else if (topClass.className === "Peace sign" && topClass.probability > 0.7) {
-                box.style.transform = "translateY(-200px)";
+                box.style.left = "50%";
+                box.style.top = "70%";
             } else if (topClass.className === "Phone" && topClass.probability > 0.7) {
-                box.style.transform = "translateX(500px)";
+                box.style.left = "80%";
+                box.style.top = "50%";
             } else {
-                box.style.transform = "translateX(0)";
+                box.style.left = "50%";
+                box.style.top = "50%";
             }
         }
 
