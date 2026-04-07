@@ -44,6 +44,7 @@
 
     <div id="webcam-container"></div>
     <div id="label-container"></div>
+    <div id="message"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -113,9 +114,22 @@
             } else if (topClass.className === "Peace sign" && topClass.probability > 0.8) {
               document.body.style.backgroundColor = "#fbbf24"; // yellow
             } else if (topClass.className === "Phone" && topClass.probability > 0.8) {
-              document.body.style.backgroundColor = "#000000"; // black
+              document.body.style.backgroundColor = "#808080"; // grey
             } else {
               document.body.style.backgroundColor = "white";
+            }
+
+            const messageEl = document.getElementById("message");
+            if (topClass.className === "Face" && topClass.probability > 0.85) {
+                messageEl.textContent = "Hello!";
+            } else if (topClass.className === "Blank" && topClass.probability > 0.80){
+                messageEl.textContent = "Hello? Are you there?";
+            } else if (topClass.className === "Peace sign" && topClass.probability > 0.80){
+                messageEl.textContent = "Peace!";
+            } else if (topClass.className === "Phone" && topClass.probability > 0.80){
+                messageEl.textContent = "Put your phone away!";
+            } else {
+                messageEl.textContent = "";
             }
         }
 
